@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Pages hosts this project under /tamerbookdesign/.
+  base: "/tamerbookdesign/",
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
