@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --font-head: "Cairo", sans-serif;
+  --font-body: "Tajawal", sans-serif;
+  --font-quote: "Amiri", serif;
+  --font-ruqaa: "Aref Ruqaa", serif;
+
+  --color-vtc: #e30613;
+  --color-vtc-dark: #b0050f;
+  --color-vtc-deep: #7a040c;
+  --color-gold: #c9971c;
+  --color-gold-light: #e9c767;
+  --color-gold-dark: #8f6b0e;
+  --color-ink: #101828;
+  --color-paper: #faf7f1;
+  --color-cream: #f3ede0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #0b0f1a;
+  color: #1e293b;
+}
+
+.font-head {
+  font-family: var(--font-head);
+}
+.font-quote {
+  font-family: var(--font-quote);
+}
+.font-ruqaa {
+  font-family: var(--font-ruqaa);
+}
+
+::selection {
+  background: #e30613;
+  color: #fff;
+}
+
+/* ---------- scrollbar ---------- */
+.nice-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.nice-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e30613, #c9971c);
+  border-radius: 99px;
+}
+
+/* ---------- textures ---------- */
+.paper-grain {
+  background-color: #fffdf8;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(201, 151, 28, 0.07), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(227, 6, 19, 0.05), transparent 40%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.gold-text {
+  background: linear-gradient(135deg, #8f6b0e 0%, #c9971c 35%, #f4dd8f 50%, #c9971c 65%, #8f6b0e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.red-sheen {
+  background: linear-gradient(135deg, #7a040c 0%, #e30613 45%, #ff4d57 55%, #b0050f 100%);
+}
+
+.islamic-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.14' stroke-width='1.2'%3E%3Cpath d='M40 0l10 30 30 10-30 10-10 30-10-30-30-10 30-10z'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ---------- animations ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-floaty {
+  animation: floaty 5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ---------- print (PDF) ---------- */
+.print-only {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 13mm 11mm 15mm;
+  @bottom-center {
+    content: "المهندس تامر مستريحي  |  مؤسسة التدريب المهني  —  " counter(page);
+    font-family: "Tajawal", sans-serif;
+    font-size: 8pt;
+    color: #64748b;
+  }
+}
+
+@media print {
+  html, body {
+    background: #fff !important;
+  }
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .screen-only {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-page {
+    break-after: page;
+    page-break-after: always;
+  }
+  .print-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .print-chapter-start {
+    break-before: page;
+    page-break-before: always;
+  }
+  img {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
