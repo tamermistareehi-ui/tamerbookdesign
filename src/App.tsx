@@ -41,22 +41,34 @@ type View =
 
 const viewKey = (v: View) => (v.k === "ch" ? `ch-${v.i}` : v.k);
 
+const loadCompletedChapters = (): boolean[] => {
+  const emptyProgress = Array(CHAPTERS.length).fill(false) as boolean[];
+  try {
+    const stored = localStorage.getItem("vtc-book-done");
+    if (!stored) return emptyProgress;
+
+    const parsed: unknown = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return emptyProgress;
+
+    return Array.from({ length: CHAPTERS.length }, (_, index) => parsed[index] === true);
+  } catch {
+    return emptyProgress;
+  }
+};
+
 export default function App() {
   const [view, setView] = useState<View>({ k: "cover" });
   const [sideOpen, setSideOpen] = useState(false);
   const [printOpen, setPrintOpen] = useState(false);
-  const [done, setDone] = useState<boolean[]>(() => {
-    try {
-      const s = localStorage.getItem("vtc-book-done");
-      return s ? JSON.parse(s) : Array(CHAPTERS.length).fill(false);
-    } catch {
-      return Array(CHAPTERS.length).fill(false);
-    }
-  });
+  const [done, setDone] = useState<boolean[]>(loadCompletedChapters);
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    localStorage.setItem("vtc-book-done", JSON.stringify(done));
+    try {
+      localStorage.setItem("vtc-book-done", JSON.stringify(done));
+    } catch {
+      // Keep the app usable if browser storage is disabled or unavailable.
+    }
   }, [done]);
 
   useEffect(() => {
